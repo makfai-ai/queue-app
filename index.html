@@ -1,32 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { UserPlus, Users, Stethoscope, Settings, Check, X, AlertTriangle, PlusCircle } from 'lucide-react';
+import { UserPlus, Users, Stethoscope, Settings, Check, X, Clock, AlertTriangle, PlusCircle, Timer } from 'lucide-react';
 
 const ClinicQueueManager = () => {
-  // 1. 初始化時從 localStorage 讀取資料 (如果沒有則使用預設值)
-  const [doctorNames, setDoctorNames] = useState(() => {
-    const saved = localStorage.getItem('clinic_doctorNames');
-    return saved ? JSON.parse(saved) : { d1: '醫師 A', d2: '醫師 B' };
+  const [doctorNames, setDoctorNames] = useState({
+    d1: '醫師 A',
+    d2: '醫師 B'
   });
 
-  const [patients, setPatients] = useState(() => {
-    const saved = localStorage.getItem('clinic_patients');
-    return saved ? JSON.parse(saved) : [
-      { id: 1, name: '陳大文', type: 'appointment', doctor: 'd1', scheduledTime: '10:00', arrivalTime: '09:55', status: 'waiting' },
-      { id: 2, name: '林小君', type: 'appointment', doctor: 'd1', scheduledTime: '10:00', arrivalTime: '09:45', status: 'waiting' },
-      { id: 3, name: '王小美', type: 'plus', doctor: 'd1', scheduledTime: '10:30', arrivalTime: '10:15', status: 'waiting' },
-      { id: 4, name: '李小明', type: 'walk-in', doctor: 'd2', arrivalTime: '10:30', status: 'waiting' },
-      { id: 5, name: '張小華', type: 'walk-in', doctor: 'd2', arrivalTime: '10:10', status: 'waiting' },
-    ];
-  });
-
-  // 2. 當資料變更時，自動寫入 localStorage
-  useEffect(() => {
-    localStorage.setItem('clinic_doctorNames', JSON.stringify(doctorNames));
-  }, [doctorNames]);
-
-  useEffect(() => {
-    localStorage.setItem('clinic_patients', JSON.stringify(patients));
-  }, [patients]);
+  const [patients, setPatients] = useState([
+    { id: 1, name: '陳大文', type: 'appointment', doctor: 'd1', scheduledTime: '10:00', arrivalTime: '09:55', status: 'waiting' },
+    { id: 2, name: '林小君', type: 'appointment', doctor: 'd1', scheduledTime: '10:00', arrivalTime: '09:45', status: 'waiting' },
+    { id: 3, name: '王小美', type: 'plus', doctor: 'd1', scheduledTime: '10:30', arrivalTime: '10:15', status: 'waiting' },
+    { id: 4, name: '李小明', type: 'walk-in', doctor: 'd2', arrivalTime: '10:30', status: 'waiting' },
+    { id: 5, name: '張小華', type: 'walk-in', doctor: 'd2', arrivalTime: '10:10', status: 'waiting' },
+  ]);
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const WAIT_THRESHOLD_MINUTES = 45; 
@@ -124,6 +111,7 @@ const ClinicQueueManager = () => {
                   </div>
                 </div>
                 
+                {/* 新增的資訊欄位 */}
                 <div className="grid grid-cols-3 gap-1 bg-white p-2 rounded border border-gray-100">
                     <div className="text-center">
                         <div className="text-[9px] text-gray-400 uppercase">預約</div>
